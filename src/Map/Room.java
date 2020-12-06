@@ -94,9 +94,10 @@ public class Room {
 		if(description != "") {
 			return description;
 		}
-		String monster, item = "";
+		String monster = "";
+		String item = "";
 		if(this.monster != null) {
-			monster ="a " + monster.getName();
+			monster ="a " + this.monster.getName();
 		}
 		if(!itemList.isEmpty()) {
 			for(int i = 0; i < itemList.size(); i++) {
@@ -119,7 +120,5 @@ public class Room {
 				return "Room is empty.";
 			}
 		}
-	}
-	
-	
+	}	
 }

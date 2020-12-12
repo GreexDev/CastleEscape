@@ -22,6 +22,14 @@ public class Room {
 		this.finish = finish;
 	}
 	
+	public Room(String description) {
+		super();
+		this.description = description;
+		this.doorList = new HashMap<String, Room>();
+		this.itemList = new Vector<ItemAbstract>();
+		this.monster = null;
+		this.finish = false;
+	}
 	public Room() {
 		super();
 		this.description = "";
@@ -91,9 +99,6 @@ public class Room {
 
 	@Override
 	public String toString() {
-		if(description != "") {
-			return description;
-		}
 		String monster = "";
 		String item = "";
 		if(this.monster != null) {
@@ -109,15 +114,15 @@ public class Room {
 		}
 		if(monster != "") {
 			if(item != "") {
-				return "Room contain "+monster+" and "+item+".";
+				return description+"Room contain "+monster+" and "+item+".";
 			} else {
-				return "Room contain "+monster+".";
+				return description+"Room contain "+monster+".";
 			}
 		} else {
 			if(item != "") {
-				return "Room contain "+item+".";
+				return description+"Room contain "+item+".";
 			} else {
-				return "Room is empty.";
+				return description+"Room is empty.";
 			}
 		}
 	}	

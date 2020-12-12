@@ -4,12 +4,14 @@ public abstract class ItemAbstract implements IItemAbstract{
 	protected String name;
 	protected String description;
 	protected int space;
+	protected boolean consumable;
 	
-	public ItemAbstract(String name, String description, int space) {
+	public ItemAbstract(String name, String description, int space, boolean consumable) {
 		super();
 		this.name = name;
 		this.description = description;
 		this.space = space;
+		this.consumable = consumable;
 	}
 
 	public String getName() {
@@ -36,6 +38,14 @@ public abstract class ItemAbstract implements IItemAbstract{
 		this.space = space;
 	}
 	
+	public boolean isConsumable() {
+		return consumable;
+	}
+
+	public void setConsumable(boolean consumable) {
+		this.consumable = consumable;
+	}
+
 	public String toString() {
 		return "Item : "+this.name+"\n"
 				+"Description : "+this.description+"\n"

@@ -4,7 +4,7 @@ public class Weapon extends ItemAbstract{
 	private int power;
 
 	public Weapon(String name, String description, int space, int power) {
-		super(name, description, space);
+		super(name, description, space, false);
 		this.power = power;
 	}
 

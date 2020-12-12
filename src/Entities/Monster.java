@@ -1,8 +1,8 @@
 package Entities;
 
 public class Monster extends Entity{
-	public Monster(String name, String description, int lifePoint) {
-		super(name, description, lifePoint);
+	public Monster(String name, String description, int lifePoint, int armor, int power) {
+		super(name, description, lifePoint, armor, power);
 	}
 
 	@Override

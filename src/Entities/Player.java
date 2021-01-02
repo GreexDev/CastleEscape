@@ -4,12 +4,15 @@ import java.util.Vector;
 
 import Items.Bag;
 import Items.ItemAbstract;
+import Items.Weapon;
 
 public class Player extends Entity{
 	private Bag bag;
+	private Weapon weapon;
 
-	public Player(String name, String description, int lifePoint, int armor, int power,  Bag bag) {
+	public Player(String name, String description, int lifePoint, int armor, int power,  Bag bag, Weapon weapon) {
 		super(name, description, lifePoint, armor, power);
+		this.weapon = weapon;
 		this.bag = bag;
 	}
 
@@ -30,6 +33,10 @@ public class Player extends Entity{
 			this.bag = bag;
 			return oldBag;
 		}
+	}
+	
+	public void changeWeapon(Weapon weapon) {
+		this.weapon = weapon;
 	}
 
 	@Override

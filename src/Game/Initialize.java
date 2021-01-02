@@ -6,7 +6,7 @@ import static Items.Item.Effect.*;
 
 import java.util.Vector;
 
-import Entities.Monster;
+import Entities.*;
 
 public class Initialize {
 	public Castle createCastle() throws Exception {
@@ -103,5 +103,9 @@ public class Initialize {
 		roomList.add(r15);
 		
 		return roomList;
+	}
+	
+	public Player createPlayer(String name, String description, int lifePoint, int armor, int power,  Bag bag, Weapon weapon) {
+		return new Player(name, description, lifePoint, armor, power, bag, weapon);
 	}
 }

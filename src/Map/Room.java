@@ -48,6 +48,10 @@ public class Room {
 		}
 	}
 	
+	public Vector<ItemAbstract> getItemList(){
+		return this.itemList;
+	}
+	
 	public Room getRoom(String direction) {
 		return doorList.get(direction);
 	}
@@ -114,15 +118,15 @@ public class Room {
 		}
 		if(monster != "") {
 			if(item != "") {
-				return description+"Room contain "+monster+" and "+item+".";
+				return description+"The room contains "+monster+" and "+item+".";
 			} else {
-				return description+"Room contain "+monster+".";
+				return description+"The room contains "+monster+".";
 			}
 		} else {
 			if(item != "") {
-				return description+"Room contain "+item+".";
+				return description+"The room contains "+item+".";
 			} else {
-				return description+"Room is empty.";
+				return description+"The room is empty.";
 			}
 		}
 	}	

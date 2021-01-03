@@ -1,6 +1,7 @@
 package Items;
 
 import java.util.Vector;
+import static Items.Item.Effect.*;
 
 public class Bag extends ItemAbstract{
 	private Vector<ItemAbstract> itemAbstractList;
@@ -54,5 +55,21 @@ public class Bag extends ItemAbstract{
 			placeOccupied += itemAbstractList.elementAt(i).getSpace();
 		}
 		return placeOccupied;
+	}
+	
+	public boolean hasKey() {
+		boolean hasKey = false;
+		// For each item
+		for (int i = 0; i < this.itemAbstractList.size(); i++) {
+			// If itemAbstract is Item
+			if (this.itemAbstractList.get(i).getClass() == Item.class) {
+				// If item Effect is OPENDOOR
+				if (((Item) this.itemAbstractList.get(i)).getEffect() == OPENDOOR) {
+					hasKey = true;
+					break;
+				}
+			}
+		}
+		return hasKey;
 	}
 }

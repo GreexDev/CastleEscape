@@ -2,6 +2,7 @@ package Game;
 
 import Map.*;
 
+import java.util.Map;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -229,8 +230,63 @@ public class Game implements IGame{
 		}
 	}
 
-	private void changeRoom() {
-		// TODO Auto-generated method stub
+	private void changeRoom() throws Exception {
+		int choice = 0;
+		int cancelValue = 0;
+		String[] directionList = {"south", "west", "north", "east"};
+		do {
+			// Get doorList
+			Map<String, Room> doorList = this.actualRoom.getDoorList();
+			cancelValue = doorList.size() + 1;
+			
+			Vector<String> possibleDirections = new Vector<String>();
+			int j = 0;
+			
+			// Get possible directions
+			System.out.println("Choose a door : ");
+			for(int i = 0; i < directionList.length; i++) {
+				// If direction is possible -> add to possibleDirection and increment j
+				if(doorList.containsKey(directionList[i])){
+					possibleDirections.add(directionList[i]);
+					j++;
+					// Show direction
+					System.out.println(j+" - Door to the "+directionList[i]);
+				}
+			}
+			System.out.println(cancelValue+" - Cancel");
+			
+			// Select door
+			System.out.println("Enter a choice :");
+			choice = this.scanner.nextInt();
+			
+			// If choice is not cancel
+			if(choice != cancelValue) {
+				try {
+					// If choice is not in array
+					if (!(choice < possibleDirections.size()) || !(choice >= 0)) {
+						throw new Exception("Out of array.");
+					}
+					// Get door
+					Room room = doorList.get(possibleDirections.get(choice));
+					// If finish -> need key
+					if (room.isFinish()) {
+						// If player has key
+						if (this.player.getBag().hasKey()) {
+							// Change room
+							this.actualRoom = room;
+						} else {
+							System.out.println("Impossible action : You need a key to open this door.");
+						}
+					} else {
+						// Change room
+						this.actualRoom = room;
+					}
+				} catch (Exception e) {
+					throw new Exception("Wrong entry.");
+				}
+				break;
+			}
+		} while(choice != cancelValue);
 		
 	}
 

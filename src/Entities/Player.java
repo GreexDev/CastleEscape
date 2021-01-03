@@ -2,9 +2,8 @@ package Entities;
 
 import java.util.Vector;
 
-import Items.Bag;
-import Items.ItemAbstract;
-import Items.Weapon;
+import Items.*;
+import static Items.Item.Effect.*;
 
 public class Player extends Entity{
 	private Bag bag;
@@ -38,10 +37,80 @@ public class Player extends Entity{
 	public void changeWeapon(Weapon weapon) {
 		this.weapon = weapon;
 	}
+	
+	public Weapon getWeapon() {
+		return this.weapon;
+	}
 
 	@Override
 	public String toString() {
 		return "Player : " + super.toString();
+	}
+	
+	// When a consumable item will affect player so consume is set to true
+	public void addEffect(ItemAbstract item, boolean consume) throws Exception {
+		// If item is an Item and is not consumable -> affect player now
+		if(item.getClass() == Item.class && (!item.isConsumable() || consume)) {
+			// Affect player
+			switch(((Item) item).getEffect()) {
+				case ADDHEALTH:
+					this.lifePoint = this.lifePoint + ((Item) item).getEffectNumber();
+					break;
+				case SUBHEALTH:
+					this.lifePoint = this.lifePoint - ((Item) item).getEffectNumber();
+					break;
+				case ADDPOWER:
+					this.power = this.power + ((Item) item).getEffectNumber();
+					break;
+				case SUBPOWER:
+					this.power = this.power - ((Item) item).getEffectNumber();
+					break;
+				case ADDARMOR:
+					this.armor = this.armor + ((Item) item).getEffectNumber();
+					break;
+				case SUBARMOR:
+					this.armor = this.armor - ((Item) item).getEffectNumber();
+					break;
+				case OPENDOOR:
+				case NOTHING:
+					// do Nothing
+					break;
+				default:
+					throw new Exception("Wrong Effect.");
+			}
+		}
+	}
+	
+	public void deleteEffect(ItemAbstract item) throws Exception {
+		// If item is an Item and is not consumable
+		if(item.getClass() == Item.class  && !item.isConsumable()) {
+			switch(((Item) item).getEffect()) {
+				case ADDHEALTH:
+					this.lifePoint = this.lifePoint - ((Item) item).getEffectNumber();
+					break;
+				case SUBHEALTH:
+					this.lifePoint = this.lifePoint + ((Item) item).getEffectNumber();
+					break;
+				case ADDPOWER:
+					this.power = this.power - ((Item) item).getEffectNumber();
+					break;
+				case SUBPOWER:
+					this.power = this.power + ((Item) item).getEffectNumber();
+					break;
+				case ADDARMOR:
+					this.armor = this.armor - ((Item) item).getEffectNumber();
+					break;
+				case SUBARMOR:
+					this.armor = this.armor + ((Item) item).getEffectNumber();
+					break;
+				case OPENDOOR:
+				case NOTHING:
+					// do Nothing
+					break;
+				default:
+					throw new Exception("Wrong Effect.");
+			}
+		}
 	}
 	
 }

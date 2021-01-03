@@ -81,8 +81,11 @@ public class Game implements IGame{
 							this.actualRoom.addItem(oldBag);
 						}
 					} else { // If simple item
+						// Take item
 						this.player.getBag().addItem(item);
 						this.actualRoom.deleteItem(item);
+						// Item affect player
+						this.player.addEffect(item, false);
 					}
 				} catch (Exception e) {
 					throw new Exception("Wrong entry.");
@@ -92,10 +95,138 @@ public class Game implements IGame{
 		} while(choice != cancelValue);
 		
 	}
+	
+	
 
-	private void useBagItem() {
-		// TODO Auto-generated method stub
-		
+	private void selectBagItem() throws Exception {
+		int choice = 0;
+		int cancelValue = 0;
+		do {
+			// Get items
+			Vector<ItemAbstract> listBagItem = this.player.getBag().getItemList();
+			cancelValue = listBagItem.size() + 1;
+			
+			// Show items
+			System.out.println("Choose an item : ");
+			for(int i = 0; i < listBagItem.size(); i++) {
+				System.out.println((i+1)+" - "+listBagItem.get(i).getName());
+			}
+			System.out.println(cancelValue+" - Cancel");
+			
+			// Select items
+			System.out.println("Enter a choice :");
+			choice = this.scanner.nextInt();
+			
+			// If choice is not cancel
+			if(choice != cancelValue) {
+				try {
+					// Get Item
+					ItemAbstract item = listBagItem.get(choice - 1);
+					// use Bag item
+					this.useBagItem(item);
+				} catch (Exception e) {
+					throw new Exception("Wrong entry.");
+				}
+				break;
+			}
+		} while(choice != cancelValue);
+	}
+	
+	private void useBagItem(ItemAbstract item) throws Exception {
+		// If item is an Item and consumable
+		if (item.getClass() == Item.class && item.isConsumable()) {
+			// Consume, put down, description, cancel
+			// Show Choices
+			System.out.println("What do you want to do with "+item.getName()+" ?");
+			System.out.print("1 - Consume this item\n"
+			+"2 - Put down this item\n"
+			+"3 - Get the description of this item\n"
+			+"4 - Cancel\n");
+			// Select Choice
+			System.out.println("Enter a choice :");
+			int choice = this.scanner.nextInt();
+			switch(choice) {
+				case 1:
+					// Add effect
+					this.player.addEffect(item, true);
+					// Delete item
+					this.player.getBag().deleteItem(item);
+					break;
+				case 2:
+					// Put down item
+					this.actualRoom.addItem(item);
+					this.player.getBag().deleteItem(item);
+					break;
+				case 3:
+					System.out.println("Description of "+item.getName());
+					System.out.println(item.getDescription());
+					break;
+				case 4:
+					// Do nothing
+					break;
+				default:
+					System.out.println("Wrong choice, try again.");
+			}
+		} else if (item.getClass() == Weapon.class && ((Weapon) item) != this.player.getWeapon()) { // If item is a Weapon and is not the one that player use
+			// Change Weapon, put down, description, cancel
+			// Show Choices
+			System.out.println("What do you want to do with "+item.getName()+" ?");
+			System.out.print("1 - Use this item as weapon\n"
+			+"2 - Put down this item\n"
+			+"3 - Get the description of this item\n"
+			+"4 - Cancel\n");
+			// Select Choice
+			System.out.println("Enter a choice :");
+			int choice = this.scanner.nextInt();
+			switch(choice) {
+				case 1:
+					// Change weapon
+					this.player.changeWeapon((Weapon) item);
+					break;
+				case 2:
+					// Put down item
+					this.actualRoom.addItem(item);
+					this.player.getBag().deleteItem(item);
+					break;
+				case 3:
+					System.out.println("Description of "+item.getName());
+					System.out.println(item.getDescription());
+					break;
+				case 4:
+					// Do nothing
+					break;
+				default:
+					System.out.println("Wrong choice, try again.");
+			}
+		} else {
+			// Put down, description, cancel
+			// Show Choices
+			System.out.println("What do you want to do with "+item.getName()+" ?");
+			System.out.print("1 - Put down this item\n"
+			+"2 - Get the description of this item\n"
+			+"3 - Cancel\n");
+			// Select Choice
+			System.out.println("Enter a choice :");
+			int choice = this.scanner.nextInt();
+			switch(choice) {
+				case 1:
+					// Delete effect on player
+					this.player.deleteEffect(item);
+					// Put down item
+					this.actualRoom.addItem(item);
+					this.player.getBag().deleteItem(item);
+					break;
+				case 2:
+					System.out.println("Description of "+item.getName());
+					System.out.println(item.getDescription());
+					break;
+				case 3:
+					// Do nothing
+					break;
+				default:
+					System.out.println("Wrong choice, try again.");
+			}
+		}
 	}
 
 	private void changeRoom() {
@@ -140,7 +271,7 @@ public class Game implements IGame{
 							throw new Exception("Your bag is empty.");
 						} else { // Use an item in the bag
 							wrongChoice = false;
-							this.useBagItem();
+							this.selectBagItem();
 						}
 						break;
 					case 3:

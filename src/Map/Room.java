@@ -7,6 +7,7 @@ import Entities.Monster;
 import Items.ItemAbstract;
 
 public class Room {
+	private int id;
 	private String description;
 	private HashMap<String, Room> doorList;
 	private Vector<ItemAbstract> itemList;
@@ -22,16 +23,18 @@ public class Room {
 		this.finish = finish;
 	}
 	
-	public Room(String description) {
+	public Room(String description, int id) {
 		super();
 		this.description = description;
+		this.id = id;
 		this.doorList = new HashMap<String, Room>();
 		this.itemList = new Vector<ItemAbstract>();
 		this.monster = null;
 		this.finish = false;
 	}
-	public Room() {
+	public Room(int id) {
 		super();
+		this.id = id;
 		this.description = "";
 		this.doorList = new HashMap<String, Room>();
 		this.itemList = new Vector<ItemAbstract>();
@@ -67,6 +70,10 @@ public class Room {
 		} else {
 			throw new Exception("Item doesn't exist.");
 		}
+	}
+	
+	public int getId() {
+		return id;
 	}
 
 	public String getDescription() {

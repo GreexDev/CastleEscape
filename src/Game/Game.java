@@ -36,6 +36,8 @@ public class Game implements IGame{
 		System.out.println("Welcome to the "+this.castle.getName()+" !");
 		// Start Loop
 		while(! this.actualRoom.isFinish()) {
+			// Debug purpose
+			System.out.println("ROOM ID : "+this.actualRoom.getId());
 			System.out.println(this.actualRoom);
 			this.makeChoice();
 		}
@@ -81,15 +83,25 @@ public class Game implements IGame{
 						if (oldBag != null) {
 							this.actualRoom.addItem(oldBag);
 						}
-					} else { // If simple item
-						// Take item
-						this.player.getBag().addItem(item);
-						this.actualRoom.deleteItem(item);
-						// Item affect player
-						this.player.addEffect(item, false);
+					} else { // If simple items
+						// If player has a bag
+						if(this.player.getBag() != null) {
+							// Take item
+							this.player.getBag().addItem(item);
+							this.actualRoom.deleteItem(item);
+							// Item affect player
+							this.player.addEffect(item, false);
+						} else {
+							throw new Exception("No bag to take this item.");
+						}
 					}
 				} catch (Exception e) {
-					throw new Exception("Wrong entry.");
+					// Exceptionnal error
+					if (e.getMessage() == "No bag to take this item.") {
+						throw new Exception(e.getMessage());
+					} else { // Usual error
+						throw new Exception("Wrong entry.");
+					}
 				}
 				break;
 			}
@@ -120,13 +132,16 @@ public class Game implements IGame{
 			
 			// If choice is not cancel
 			if(choice != cancelValue) {
+				ItemAbstract item = null;
 				try {
 					// Get Item
-					ItemAbstract item = listBagItem.get(choice - 1);
-					// use Bag item
-					this.useBagItem(item);
+					item = listBagItem.get(choice - 1);
 				} catch (Exception e) {
 					throw new Exception("Wrong entry.");
+				}
+				if (item != null) {
+					// use Bag item
+					this.useBagItem(item);
 				}
 				break;
 			}
@@ -155,8 +170,8 @@ public class Game implements IGame{
 					break;
 				case 2:
 					// Put down item
-					this.actualRoom.addItem(item);
 					this.player.getBag().deleteItem(item);
+					this.actualRoom.addItem(item);
 					break;
 				case 3:
 					System.out.println("Description of "+item.getName());
@@ -186,8 +201,9 @@ public class Game implements IGame{
 					break;
 				case 2:
 					// Put down item
-					this.actualRoom.addItem(item);
+					System.out.println("debug");
 					this.player.getBag().deleteItem(item);
+					this.actualRoom.addItem(item);
 					break;
 				case 3:
 					System.out.println("Description of "+item.getName());
@@ -214,8 +230,8 @@ public class Game implements IGame{
 					// Delete effect on player
 					this.player.deleteEffect(item);
 					// Put down item
-					this.actualRoom.addItem(item);
 					this.player.getBag().deleteItem(item);
+					this.actualRoom.addItem(item);
 					break;
 				case 2:
 					System.out.println("Description of "+item.getName());
@@ -263,11 +279,11 @@ public class Game implements IGame{
 			if(choice != cancelValue) {
 				try {
 					// If choice is not in array
-					if (!(choice < possibleDirections.size()) || !(choice >= 0)) {
-						throw new Exception("Out of array.");
+					if ((!(choice-1 < possibleDirections.size())) || (!(choice-1 >= 0))) {
+						throw new Exception("Out of array."); // Will show "Wrong entry."
 					}
 					// Get door
-					Room room = doorList.get(possibleDirections.get(choice));
+					Room room = doorList.get(possibleDirections.get(choice-1));
 					// If finish -> need key
 					if (room.isFinish()) {
 						// If player has key

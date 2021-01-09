@@ -16,21 +16,21 @@ public class Initialize {
 	
 	private Vector<Room> createRoomList() throws Exception{
 		// Create Rooms
-		Room r1 = new Room("Entrance of the castle.\n");
-		Room r2 = new Room();
-		Room r3 = new Room();
-		Room r4 = new Room();
-		Room r5 = new Room();
-		Room r6 = new Room();
-		Room r7 = new Room();
-		Room r8 = new Room();
-		Room r9 = new Room();
-		Room r10 = new Room();
-		Room r11 = new Room();
-		Room r12 = new Room();
-		Room r13 = new Room();
-		Room r14 = new Room("Boss room and exit.");
-		Room r15 = new Room("EXIT");
+		Room r1 = new Room("Entrance of the castle.\n",1);
+		Room r2 = new Room(2);
+		Room r3 = new Room(3);
+		Room r4 = new Room(4);
+		Room r5 = new Room(5);
+		Room r6 = new Room(6);
+		Room r7 = new Room(7);
+		Room r8 = new Room(8);
+		Room r9 = new Room(9);
+		Room r10 = new Room(10);
+		Room r11 = new Room(11);
+		Room r12 = new Room(12);
+		Room r13 = new Room(13);
+		Room r14 = new Room("Boss room and exit.",14);
+		Room r15 = new Room("EXIT",15);
 		r15.setFinish(true);
 		
 		// Link Rooms

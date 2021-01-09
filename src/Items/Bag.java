@@ -43,7 +43,7 @@ public class Bag extends ItemAbstract{
 	
 	public void deleteItem(ItemAbstract item) throws Exception {
 		// If item isn't in bag
-		if(itemAbstractList.contains(item)) {
+		if(!itemAbstractList.contains(item)) {
 			throw new Exception("Bag does not contain this item.");
 		}
 		itemAbstractList.remove(item);

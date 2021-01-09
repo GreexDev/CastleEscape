@@ -5,8 +5,10 @@ import Map.*;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Vector;
+import java.util.concurrent.TimeUnit;
 
 import Entities.*;
+import Fight.Fight;
 import Items.*;
 
 public class Game implements IGame{
@@ -36,8 +38,7 @@ public class Game implements IGame{
 		System.out.println("Welcome to the "+this.castle.getName()+" !");
 		// Start Loop
 		while(! this.actualRoom.isFinish()) {
-			// Debug purpose
-			System.out.println("ROOM ID : "+this.actualRoom.getId());
+			System.out.println("--------------------------------------");
 			System.out.println(this.actualRoom);
 			this.makeChoice();
 		}
@@ -288,6 +289,10 @@ public class Game implements IGame{
 					if (room.isFinish()) {
 						// If player has key
 						if (this.player.getBag().hasKey()) {
+							// Show player that he won the game
+							System.out.println("Congrats ! You have exit the castle !");
+							System.out.println("Game is ended.");
+							System.out.println("Game made by Eric Rodriguez.");
 							// Change room
 							this.actualRoom = room;
 						} else {
@@ -307,7 +312,31 @@ public class Game implements IGame{
 	}
 
 	private void fightMonster() {
-		// TODO Auto-generated method stub
+		// Show the monster that the player is going to fight
+		System.out.println("You are going to fight the "+this.actualRoom.getMonster());
+		System.out.println("Stats of "+this.player);
+		// Warn player that he is going to play a minigame
+		try {
+			for(int i = 0; i < 5; i++) {
+			System.out.println("Warning ! A minigame will start in "+(5-i)+" seconds !");
+			TimeUnit.SECONDS.sleep(1);
+			}
+		} catch (InterruptedException e) {
+			// Do nothing
+		}
+		// Excecute fight
+		Fight fight = new Fight(this.actualRoom.getMonster(), this.player, this.scanner);
+		boolean win = fight.run();
+		// If player win the fight
+		if (win) {
+			// Monster died
+			this.actualRoom.setMonster(null);
+			System.out.println("You won the fight ! You can leave the room !");
+		} else {
+			// Actual room is set finished to end the game
+			this.actualRoom.setFinish(true);
+			System.out.println("You lost the fight ! Too bad, maybe next time !");
+		}
 		
 	}
 

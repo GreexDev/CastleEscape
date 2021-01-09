@@ -3,7 +3,6 @@ package Entities;
 import java.util.Vector;
 
 import Items.*;
-import static Items.Item.Effect.*;
 
 public class Player extends Entity{
 	private Bag bag;
@@ -44,7 +43,12 @@ public class Player extends Entity{
 
 	@Override
 	public String toString() {
-		return "Player : " + super.toString();
+		String string = "Player : " + super.toString();
+		// If player has weapon
+		if (weapon != null) {
+			string = string+"Weapon power : "+weapon.getPower()+"\n";
+		}
+		return string;
 	}
 	
 	// When a consumable item will affect player so consume is set to true

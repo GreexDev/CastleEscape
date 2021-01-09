@@ -81,7 +81,7 @@ public class Initialize {
 		// Add monster
 		Monster monster = new Monster("Glubu", "A slimy monster.",12,0,2);
 		r5.setMonster(monster);
-		Monster boss = new Monster("Glubu King", "King of slimy monsters, he is fierce and cruel.",25,5,6);
+		Monster boss = new Monster("Glubu King", "King of slimy monsters, he is fierce and cruel.",25,4,6);
 		r14.setMonster(boss);
 		
 		// Add Rooms to list

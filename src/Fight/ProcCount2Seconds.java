@@ -3,9 +3,6 @@ package Fight;
 import java.time.Duration;
 import java.time.Instant;
 
-import Entities.Monster;
-import Entities.Player;
-
 public class ProcCount2Seconds extends Thread{
 	private Instant t1,t2;
 	
